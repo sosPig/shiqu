@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="myShiQu:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="myShiQu-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="myShiQu:war exploded" />
+    </root>
+  </artifact>
+</component>
