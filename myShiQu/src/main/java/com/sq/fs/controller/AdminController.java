@@ -1,8 +1,8 @@
 package com.sq.fs.controller;
 
 import com.sq.fs.dto.R;
-import com.sq.fs.pojo.User;
-import com.sq.fs.service.UserService;
+import com.sq.fs.pojo.Admin;
+import com.sq.fs.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +20,18 @@ import java.util.UUID;
  * Created by Administrator on 2018/6/18.
  */
 @Controller
-@RequestMapping("/api/user")
-public class UserController {
+@RequestMapping("/api/admin")
+public class AdminController {
 
     @Autowired
-    private UserService userService;
+    private AdminService adminService;
 
     @RequestMapping("/add")
-    public String add(@RequestBody User user,
+    public R add(Admin admin,
                  @RequestParam("file1") MultipartFile file,
                  Model model){
 
-        System.out.println(user.toString());
+        System.out.println(admin.toString());
         System.out.println(file);
         if(file!=null&&file.getOriginalFilename()!=null&&file.getOriginalFilename().length()>0){
 
@@ -47,31 +47,31 @@ public class UserController {
             }
 
 
-            user.setPhotoPath("/picture/"+newFilename);
-            model.addAttribute("user","/picture/"+newFilename);
-            System.out.println(user.toString());
+            admin.setPhotoPath("/picture/"+newFilename);
+            model.addAttribute("admin","/picture/"+newFilename);
+            System.out.println(admin.toString());
         }
-        userService.save(user);
-        return "success";
+        adminService.save(admin);
+        return R.ok("添加成功");
     }
 
     @ResponseBody
     @RequestMapping("/read/{id}")
     public R read(@PathVariable Integer id){
 
-        User user = userService.queryById(id);
-        if(user==null){
+        Admin admin = adminService.queryById(id);
+        if(admin==null){
             R.error("查无此人");
         }
-        return R.ok().put("data",user);
+        return R.ok().put("data",admin);
     }
 
     @ResponseBody
     @RequestMapping("/show")
     public R show(){
 
-        List<User> userList = userService.queryList();
-        return R.ok().put("data",userList);
+        List<Admin> adminList = adminService.queryList();
+        return R.ok().put("data",adminList);
     }
 
 
@@ -81,42 +81,35 @@ public class UserController {
 
         System.out.println(paramters);
         Integer[] ids = paramters.get("id");
-        userService.deleteBatch(ids);
+        adminService.deleteBatch(ids);
         return R.ok("删除成功");
     }
 
 
     @ResponseBody
     @RequestMapping("/mod/{id}")
-    public R update(@RequestBody User user,@PathVariable Integer id){
+    public R update(@PathVariable Integer id,  Admin admin){
 
-        userService.update(id, user);
+        adminService.update(id, admin);
         return R.ok("更新成功");
     }
 
 
-    @RequestMapping("/jsp11")
-    public String jsp11(){
-        return "user";
-    }
 
 
     @ResponseBody
     @RequestMapping("/login")
-    public R login(@RequestBody User user,  HttpSession session){
-        String userName=user.getJobNum();
-        String userPwd=user.getPassword();
-        System.out.println(userName+"........"+userPwd);
-        User user2 = userService.login(userName, userPwd);
-        if(user!=null){
-            session.setAttribute("user",user2);
+    public R login(Admin admin,  HttpSession session){
+        String adminName=admin.getJobNum();
+        String adminPwd=admin.getPassword();
+        System.out.println(adminName+"........"+adminPwd);
+        Admin admin2 = adminService.login(adminName, adminPwd);
+        if(admin!=null){
+            session.setAttribute("admin",admin2);
             return R.ok("登录成功");
         }
         return R.error("登录失败");
     }
 
-    @RequestMapping("/loginjsp")
-    public String loginjsp(){
-        return "userlogin";
-    }
+
 }

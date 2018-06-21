@@ -1,6 +1,7 @@
 package com.sq.fs.dao.impl;
 
 import com.sq.fs.dao.BaseDao;
+import com.sq.fs.pojo.Admin;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.procedure.ProcedureCall;
@@ -49,7 +50,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 
 	@Override
-	public Serializable save(T o) {  
+	public Serializable save(T o) {
 		return currentSession().save(o);
 	}  
 	

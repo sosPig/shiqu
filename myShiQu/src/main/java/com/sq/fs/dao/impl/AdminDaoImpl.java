@@ -1,7 +1,7 @@
 package com.sq.fs.dao.impl;
 
 import com.sq.fs.dao.AdminDao;
-import com.sq.fs.pojo.User;
+import com.sq.fs.pojo.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
  * Created by Administrator on 2018/6/18.
  */
 @Repository
-//@Transactional
-public class AdminDaoImpl extends BaseDaoImpl<User> implements AdminDao {
+public class AdminDaoImpl extends BaseDaoImpl<Admin> implements AdminDao {
     @Override
     @Autowired
     protected void setClassName() {

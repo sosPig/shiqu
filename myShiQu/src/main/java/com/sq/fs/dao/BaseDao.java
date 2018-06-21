@@ -1,5 +1,6 @@
 package com.sq.fs.dao;
 
+import com.sq.fs.pojo.Admin;
 import org.hibernate.procedure.ProcedureCall;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ public interface BaseDao<T> {
 
     /**
      * 保存一个对象
+     * @param o
      */
     public Serializable save(T o);
 

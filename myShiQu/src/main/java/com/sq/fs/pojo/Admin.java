@@ -17,6 +17,8 @@ public class Admin {
 
     @Column(name="a_job_num")
     private String jobNum;
+    @Column(name="a_password")
+    private String password;
 
 
     @Column(name="a_position")
@@ -28,6 +30,14 @@ public class Admin {
 
     @Column(name="a_photo_path")
     private String photoPath;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -91,6 +101,7 @@ public class Admin {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", jobNum='" + jobNum + '\'' +
+                ", password='" + password + '\'' +
                 ", position='" + position + '\'' +
                 ", section='" + section + '\'' +
                 ", date='" + date + '\'' +
