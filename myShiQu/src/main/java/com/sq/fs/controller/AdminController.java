@@ -2,7 +2,10 @@ package com.sq.fs.controller;
 
 import com.sq.fs.dto.R;
 import com.sq.fs.pojo.Admin;
+import com.sq.fs.pojo.User;
 import com.sq.fs.service.AdminService;
+import com.sq.fs.service.UserService;
+import com.sq.fs.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,18 +91,16 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/mod/{id}")
-    public R update(@PathVariable Integer id,  Admin admin){
+    public R update(@PathVariable Integer id,@RequestBody  Admin admin){
 
         adminService.update(id, admin);
         return R.ok("更新成功");
     }
 
 
-
-
     @ResponseBody
     @RequestMapping("/login")
-    public R login(Admin admin,  HttpSession session){
+    public R login(@RequestBody Admin admin,  HttpSession session){
         String adminName=admin.getJobNum();
         String adminPwd=admin.getPassword();
         System.out.println(adminName+"........"+adminPwd);
@@ -111,5 +112,25 @@ public class AdminController {
         return R.error("登录失败");
     }
 
+    @ResponseBody
+    @RequestMapping("/up/{id}")
+    public R update(@PathVariable Integer id){
+        UserService userService=new UserServiceImpl();
+
+        User user = userService.queryById(id);
+        Admin admin=new Admin();
+        admin.setJobNum(user.getJobNum());
+        admin.setDate(user.getDate());
+        admin.setName(user.getName());
+        admin.setPassword(user.getPassword());
+        admin.setPosition(user.getPosition());
+        admin.setSection(user.getSection());
+        admin.setPhotoPath(user.getPhotoPath());
+        adminService.save(admin);
+        Integer i=user.getId();
+        Integer[] integers={i};
+        userService.deleteBatch(integers);
+        return R.ok("更新成功");
+    }
 
 }

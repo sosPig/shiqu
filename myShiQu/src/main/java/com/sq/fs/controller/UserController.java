@@ -27,7 +27,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/add")
-    public String add(@RequestBody User user,
+    public R add( User user,
                  @RequestParam("file1") MultipartFile file,
                  Model model){
 
@@ -48,11 +48,11 @@ public class UserController {
 
 
             user.setPhotoPath("/picture/"+newFilename);
-            model.addAttribute("user","/picture/"+newFilename);
+            model.addAttribute("url","/picture/"+newFilename);
             System.out.println(user.toString());
         }
         userService.save(user);
-        return "success";
+        return R.ok("保存成功");
     }
 
     @ResponseBody
@@ -90,6 +90,7 @@ public class UserController {
     @RequestMapping("/mod/{id}")
     public R update(@RequestBody User user,@PathVariable Integer id){
 
+        System.out.println(user.toString());
         userService.update(id, user);
         return R.ok("更新成功");
     }
