@@ -111,7 +111,7 @@ public class UserController {
         User user2 = userService.login(userName, userPwd);
         if(user!=null){
             session.setAttribute("user",user2);
-            return R.ok("登录成功");
+            return R.ok("登录成功").put("id",user2.getId());
         }
         return R.error("登录失败");
     }

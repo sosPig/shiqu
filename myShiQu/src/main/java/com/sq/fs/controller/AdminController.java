@@ -107,7 +107,7 @@ public class AdminController {
         Admin admin2 = adminService.login(adminName, adminPwd);
         if(admin!=null){
             session.setAttribute("admin",admin2);
-            return R.ok("登录成功");
+            return R.ok("登录成功").put("id",admin2.getId());
         }
         return R.error("登录失败");
     }
