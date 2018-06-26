@@ -5,6 +5,6 @@
 </head>
 <body>
 
-<img src="${user}" alt="image">
+<img src="${url}" alt="image">
 </body>
 </html>
