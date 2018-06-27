@@ -16,18 +16,11 @@ public class ImgList {
     @Column(name="i_photo_path")
     private String photoPath;
 
- /*   @ManyToOne
-    @JoinColumn(name="i_product_id")
-    private Product product;*/
 
- /*   public Product getProduct() {
-        return product;
-    }
+    @Column(name="i_product_id")
+    private Integer productId;
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-*/
+
     public ImgList() {
     }
 
@@ -47,4 +40,11 @@ public class ImgList {
         this.photoPath = photoPath;
     }
 
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
 }

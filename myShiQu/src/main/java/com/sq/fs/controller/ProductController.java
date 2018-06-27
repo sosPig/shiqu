@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,13 @@ public class ProductController {
 
         Product product = productService.queryById(id);
         List<ImgList> imgLists = imgListService.queryList(id);
-       // product.setImglist(imgLists);
+        List<String> imglist=new ArrayList<>();
+        for (ImgList imgList : imgLists) {
+
+
+            imglist.add( imgList.getPhotoPath());
+        }
+        product.setImglist(imglist);
         return R.ok().put("data",product);
     }
 
@@ -50,11 +57,17 @@ public class ProductController {
 
         List<Product> productList = productService.queryList();
 
-//        for (Product product : productList) {
-//            Integer id=product.getId();
-//            List<ImgList> imgLists = imgListService.queryList(id);
-//           // product.setImglist(imgLists);
-//        }
+        for (Product product : productList) {
+            Integer id=product.getId();
+            List<ImgList> imgLists = imgListService.queryList(id);
+            List<String> imglist=new ArrayList<>();
+            for (ImgList imgList : imgLists) {
+
+
+                imglist.add( imgList.getPhotoPath());
+            }
+            product.setImglist(imglist);
+        }
         return R.ok().put("data",productList);
     }
 

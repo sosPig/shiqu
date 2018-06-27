@@ -22,7 +22,7 @@ public class ImgListServiceImpl implements ImgListService {
     public List<ImgList> queryList(Integer id) {
         List list=new ArrayList();
         list.add(id);
-        List<ImgList> imglist = imgListDao.find("select photoPath FROM ImgList WHERE i_product_id = ?", list);
+        List<ImgList> imglist = imgListDao.find("FROM ImgList WHERE i_product_id = ?", list);
         return imglist;
     }
 }

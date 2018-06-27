@@ -1,24 +1,12 @@
 package com.sq.fs.pojo;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/6/26.
  *
- "id":1,//id
- "name":"西红柿炒鸡蛋", // 产品名称：[字符串：必填]
- "idNum":"201803201132", // 产品id:[整型：必填]
- "imglist":{
- img:src,
- img:src,
- img:src,
- ...
- }, // 产品图片:[字符串:必填]
- "price":"100.00", // 原价:[字符串:必填]
- "vipPrice":"85.00", // 会员价:[字符串:必填]
- "type":"中餐"//类型:[字符串：必填]
+
  */
 @Entity
 @Table(name="t_product")
@@ -40,9 +28,9 @@ public class Product {
     @Column(name="p_type")
     private String type;
 
-    @OneToMany(mappedBy = "product",fetch=FetchType.EAGER )
-    @JoinColumn(name = "pid")
-    private List<ImgList> imglist =new ArrayList<ImgList>() ;
+
+    @Transient
+    private List<String> imglist  ;
 
     public Product() {
     }
@@ -95,13 +83,11 @@ public class Product {
         this.type = type;
     }
 
-    public List<ImgList> getImglist() {
+    public List<String> getImglist() {
         return imglist;
     }
 
-    public void setImglist(List<ImgList> imglist) {
+    public void setImglist(List<String> imglist) {
         this.imglist = imglist;
     }
-
-
 }
