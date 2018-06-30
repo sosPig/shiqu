@@ -4,19 +4,16 @@ import com.sq.fs.dto.R;
 import com.sq.fs.pojo.Notes;
 import com.sq.fs.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by Administrator on 2018/6/22.
  */
-@Controller
+@RestController
 @RequestMapping("/api/notes")
 public class NotesController {
 
@@ -24,12 +21,13 @@ public class NotesController {
     private NotesService notesService;
 
     @RequestMapping("/add")
-    public R add( Notes notes){
-        notesService.save(notes);
+    public R add(@RequestBody Notes notes){
+        Serializable save = notesService.save(notes);
+        System.out.println(save);
+
         return R.ok("保存成功");
     }
 
-    @ResponseBody
     @RequestMapping("/read/{id}")
     public R read(@PathVariable Integer id){
 
@@ -38,7 +36,6 @@ public class NotesController {
         return R.ok().put("data",notes);
     }
 
-    @ResponseBody
     @RequestMapping("/show")
     public R show(){
 
@@ -47,7 +44,6 @@ public class NotesController {
     }
 
 
-    @ResponseBody
     @RequestMapping("/remove")
     public R del(@RequestBody Map<String, Integer[]> paramters){
 
@@ -58,7 +54,6 @@ public class NotesController {
     }
 
 
-    @ResponseBody
     @RequestMapping("/mod/{id}")
     public R update(@RequestBody Notes notes,@PathVariable Integer id){
 

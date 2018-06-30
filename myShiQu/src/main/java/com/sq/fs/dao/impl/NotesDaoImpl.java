@@ -13,7 +13,7 @@ public class NotesDaoImpl extends BaseDaoImpl<Notes> implements NotesDao {
     @Override
     @Autowired
     protected void setClassName() {
-        super.className="Motes";
+        super.className="Notes";
     }
 
     @Override
@@ -31,6 +31,6 @@ public class NotesDaoImpl extends BaseDaoImpl<Notes> implements NotesDao {
     @Override
     @Autowired
     protected void setDefaultOrderType() {
-        super.defaultOrderType="desc";
+        super.defaultOrderType="asc";
     }
 }

@@ -1,13 +1,14 @@
 package com.sq.fs.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/6/22.
  */
 @Entity
 @Table(name="t_vip")
-public class Vip {
+public class Vip  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

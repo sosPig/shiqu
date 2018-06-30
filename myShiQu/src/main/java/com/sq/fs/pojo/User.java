@@ -1,13 +1,14 @@
 package com.sq.fs.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/6/14.
  */
 @Entity
 @Table(name="t_user")
-public class User {
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -19,4 +19,5 @@ public interface AdminService {
 
     void deleteBatch(Integer[] ids);
     Admin login(String adminName, String adminPwd);
+    void updatePassWord(Integer id,String password);
 }

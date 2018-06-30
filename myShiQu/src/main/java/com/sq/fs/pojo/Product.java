@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="t_product")
-public class Product {
+public class Product  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,7 +30,7 @@ public class Product {
 
 
     @Transient
-    private List<String> imglist  ;
+    private List<ImgList> imglist  ;
 
     public Product() {
     }
@@ -83,11 +83,11 @@ public class Product {
         this.type = type;
     }
 
-    public List<String> getImglist() {
+    public List<ImgList> getImglist() {
         return imglist;
     }
 
-    public void setImglist(List<String> imglist) {
+    public void setImglist(List<ImgList> imglist) {
         this.imglist = imglist;
     }
 }

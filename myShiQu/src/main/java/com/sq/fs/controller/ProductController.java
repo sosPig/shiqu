@@ -6,20 +6,21 @@ import com.sq.fs.pojo.Product;
 import com.sq.fs.service.ImgListService;
 import com.sq.fs.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Administrator on 2018/6/22.
  */
-@Controller
+@RestController
 @RequestMapping("/api/product")
 public class ProductController {
 
@@ -28,30 +29,66 @@ public class ProductController {
 
     @Autowired
     private ImgListService imgListService;
-    @ResponseBody
+
+
     @RequestMapping("/add")
-    public R add( Product product){
-        productService.save(product);
-        return R.ok("保存成功");
+    public R add( Product product,
+                  @RequestParam("file1") MultipartFile[] files
+                  ){
+
+        Serializable id = productService.save(product);
+        String s = id.toString();
+        int productId = Integer.parseInt(s);
+
+//        System.out.println(files);
+        if(files!=null&&files.length>0){
+            List<ImgList> imglist=new ArrayList<>();
+            for (MultipartFile file : files) {
+                String oldFilename = file.getOriginalFilename();
+                String newFilename= UUID.randomUUID().toString()+oldFilename.substring(oldFilename.lastIndexOf("."));
+                String fileAdress="D:\\shiqu\\picture\\";
+                File file1=new File(fileAdress+newFilename);
+
+                try {
+                    file.transferTo(file1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ImgList imgList = new ImgList();
+                String url="/picture/"+newFilename;
+
+                imgList.setPhotoPath(url);
+                imgList.setProductId(productId);
+                Serializable save = imgListService.save(imgList);
+                String s1 = save.toString();
+                int i = Integer.parseInt(s1);
+                imgList.setId(i);
+                imglist.add(imgList);
+            }
+            product.setImglist(imglist);
+            return R.ok("保存成功").put("data",product);
+        }
+
+        return R.error("服务器发生错误，请稍后再试");
     }
 
-    @ResponseBody
+
     @RequestMapping("/read/{id}")
     public R read(@PathVariable Integer id){
 
         Product product = productService.queryById(id);
         List<ImgList> imgLists = imgListService.queryList(id);
-        List<String> imglist=new ArrayList<>();
-        for (ImgList imgList : imgLists) {
-
-
-            imglist.add( imgList.getPhotoPath());
-        }
-        product.setImglist(imglist);
+//        List<String> imglist=new ArrayList<>();
+//        for (ImgList imgList : imgLists) {
+//
+//
+//            imglist.add( imgList.getPhotoPath());
+//        }
+        product.setImglist(imgLists);
         return R.ok().put("data",product);
     }
 
-    @ResponseBody
+
     @RequestMapping("/show")
     public R show(){
 
@@ -60,30 +97,31 @@ public class ProductController {
         for (Product product : productList) {
             Integer id=product.getId();
             List<ImgList> imgLists = imgListService.queryList(id);
-            List<String> imglist=new ArrayList<>();
-            for (ImgList imgList : imgLists) {
-
-
-                imglist.add( imgList.getPhotoPath());
-            }
-            product.setImglist(imglist);
+//            List<String> imglist=new ArrayList<>();
+//            for (ImgList imgList : imgLists) {
+//
+//
+//                imglist.add( imgList.getPhotoPath());
+//            }
+            product.setImglist(imgLists);
         }
         return R.ok().put("data",productList);
     }
 
 
-    @ResponseBody
+
     @RequestMapping("/remove")
     public R del(@RequestBody Map<String, Integer[]> paramters){
 
        // System.out.println(paramters);
         Integer[] ids = paramters.get("id");
         productService.deleteBatch(ids);
+        imgListService.deleteBatchs(ids);
         return R.ok("删除成功");
     }
 
 
-    @ResponseBody
+
     @RequestMapping("/mod/{id}")
     public R update(@RequestBody Product product,@PathVariable Integer id){
 

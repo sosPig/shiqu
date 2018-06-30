@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
 
 
     }
+
+    @Override
+    public void updatePassWord(Integer id,String password) {
+        userDao.updatePassWord(id,password);
+    }
 }

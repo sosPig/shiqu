@@ -132,5 +132,12 @@ public class AdminController {
         userService.deleteBatch(integers);
         return R.ok("更新成功");
     }
+    @ResponseBody
+    @RequestMapping("/pwdchange/{id}")
+    public R updatePassWord(@RequestBody User user,@PathVariable Integer id){
+        String password = user.getPassword();
 
+        adminService.updatePassWord(id,password);
+        return R.ok("更改密码成功");
+    }
 }

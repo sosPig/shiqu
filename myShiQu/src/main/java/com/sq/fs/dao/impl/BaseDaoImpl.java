@@ -1,7 +1,6 @@
 package com.sq.fs.dao.impl;
 
 import com.sq.fs.dao.BaseDao;
-import com.sq.fs.pojo.Admin;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.procedure.ProcedureCall;
@@ -244,8 +243,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	} 
 
 	@Override
-	public Object uniqueResult(String hql) {  
-		return currentSession().createQuery(hql).uniqueResult();  
+	public Object uniqueResult(String hql) {
+			return currentSession().createQuery(hql).uniqueResult();
 	}  
 
 	@Override

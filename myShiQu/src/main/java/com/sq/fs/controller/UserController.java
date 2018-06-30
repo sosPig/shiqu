@@ -95,11 +95,18 @@ public class UserController {
         return R.ok("更新成功");
     }
 
+    @ResponseBody
+    @RequestMapping("/pwdchange/{id}")
+    public R updatePassWord(@RequestBody User user,@PathVariable Integer id){
+        String password = user.getPassword();
 
-    @RequestMapping("/jsp11")
-    public String jsp11(){
-        return "user";
+        userService.updatePassWord(id,password);
+        return R.ok("更改密码成功");
     }
+//    @RequestMapping("/jsp11")
+//    public String jsp11(){
+//        return "user";
+//    }
 
 
     @ResponseBody
@@ -116,8 +123,8 @@ public class UserController {
         return R.error("登录失败");
     }
 
-    @RequestMapping("/loginjsp")
-    public String loginjsp(){
-        return "userlogin";
-    }
+//    @RequestMapping("/loginjsp")
+//    public String loginjsp(){
+//        return "userlogin";
+//    }
 }

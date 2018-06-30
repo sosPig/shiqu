@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +23,11 @@ public class VipController {
 
     @Autowired
     private VipService vipService;
-
+    @ResponseBody
     @RequestMapping("/add")
-    public R add( Vip vip){
-        vipService.save(vip);
+    public R add(@RequestBody Vip vip){
+        Serializable save = vipService.save(vip);
+        System.out.println(save);
         return R.ok("保存成功");
     }
 
@@ -60,7 +62,7 @@ public class VipController {
 
     @ResponseBody
     @RequestMapping("/mod/{id}")
-    public R update(@RequestBody Vip vip,@PathVariable Integer id){
+    public R update(@RequestBody Vip vip,@PathVariable("id") Integer id){
 
         System.out.println(vip.toString());
         vipService.update(id, vip);

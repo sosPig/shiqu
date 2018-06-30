@@ -2,6 +2,7 @@ package com.sq.fs.dao.impl;
 
 import com.sq.fs.dao.AdminDao;
 import com.sq.fs.pojo.Admin;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +33,14 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin> implements AdminDao {
     @Autowired
     protected void setDefaultOrderType() {
         super.defaultOrderType = "asc";
+    }
+
+    @Override
+    public void updatePassWord(Integer id,String password) {
+        Query queryupdate=currentSession().createQuery("update "+className+" a set a.password= ? where a.id = ?");
+        queryupdate.setParameter(0, password);
+        queryupdate.setParameter(1, id);
+        int ret=queryupdate.executeUpdate();
+
     }
 }

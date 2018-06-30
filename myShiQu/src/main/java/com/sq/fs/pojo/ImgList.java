@@ -1,13 +1,14 @@
 package com.sq.fs.pojo;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Administrator on 2018/6/26.
  */
 @Entity
 @Table(name="t_img_list")
-public class ImgList {
+public class ImgList  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
