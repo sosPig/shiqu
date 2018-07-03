@@ -34,13 +34,16 @@ public class AdminController {
                  @RequestParam("file1") MultipartFile file,
                  Model model){
 
-        System.out.println(admin.toString());
-        System.out.println(file);
+
         if(file!=null&&file.getOriginalFilename()!=null&&file.getOriginalFilename().length()>0){
 
             String oldFilename = file.getOriginalFilename();
             String newFilename= UUID.randomUUID().toString()+oldFilename.substring(oldFilename.lastIndexOf("."));
             String fileAdress="D:\\shiqu\\picture\\";
+            File file2=new File(fileAdress);
+            if(!file2.exists()){
+                file2.mkdirs();
+            }
             File file1=new File(fileAdress+newFilename);
 
             try {
