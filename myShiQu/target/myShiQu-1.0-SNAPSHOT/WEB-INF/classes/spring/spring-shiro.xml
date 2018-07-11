@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+        <!--<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>-->
+    <!--</bean>-->
+    <bean id="userRealm" class="com.sq.fs.realm.UserRealm">
+        <!-- <property name="credentialsMatcher">
+             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                 <property name="hashAlgorithmName" value="MD5"></property>
+                 <property name="hashIterations" value="1024"></property>
+                 <property name="hashSalted" value="true"></property>
+             </bean>
+         </property>-->
+    </bean>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm" />
+        <!--<property name="rememberMeManager.cookie.maxAge" value="60" />-->
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
+    </bean>
+
+
+    <bean  id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+
+        <property name="securityManager" ref="securityManager" />
+
+        <!--登录页面-->
+        <property name="loginUrl" value="/login.html" />
+
+        <!--登录成功的首页面-->
+        <property name="successUrl" value="/" />
+
+        <!--授权失败的跳转链接-->
+        <property name="unauthorizedUrl" value="/unauthorized.html" />
+
+        <!--anon：此过滤器什么都没做-->
+        <!--authc：此过滤器下的资源必须经过认证后才能访问-->
+        <property name="filterChainDefinitions">
+            <value>
+
+
+                /login.html=anon
+
+                <!--/captcha.jpg=anon-->
+                <!--/**=authc-->
+                <!--/sys/user/list=roles[admin]
+                /sys/role/list=perms[sys:role:list]-->
+                <!--/sys/**=roles[admin]
+                /file/**=roles[editor]-->
+                <!--/sys/**=perms[sys:*]
+                /schedule/**=perms[schedule:*]-->
+                /**=anon
+            </value>
+        </property>
+    </bean>
+</beans>
