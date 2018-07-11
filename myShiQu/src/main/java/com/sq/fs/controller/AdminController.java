@@ -6,15 +6,19 @@ import com.sq.fs.pojo.User;
 import com.sq.fs.service.AdminService;
 import com.sq.fs.service.UserService;
 import com.sq.fs.service.impl.UserServiceImpl;
+import com.sq.fs.shiro.CustomizedToken;
+import com.sq.fs.shiro.LoginType;
+import com.sq.fs.utils.ShiroUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -25,7 +29,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/api/admin")
 public class AdminController {
-
+    private static final String ADMIN_LOGIN_TYPE = LoginType.ADMIN.toString();
     @Autowired
     private AdminService adminService;
 
@@ -38,6 +42,15 @@ public class AdminController {
         if(file!=null&&file.getOriginalFilename()!=null&&file.getOriginalFilename().length()>0){
 
             String oldFilename = file.getOriginalFilename();
+
+            String dex = oldFilename.substring(oldFilename.indexOf(".")+1);
+            List<String> dexs=new ArrayList<>();
+            dexs.add("jpg");
+            dexs.add("png");
+            if (!dexs.contains(dex)) {
+//                System.out.println("不支持的文件格式");
+                return R.error("不支持的文件格式");
+            }
             String newFilename= UUID.randomUUID().toString()+oldFilename.substring(oldFilename.lastIndexOf("."));
             String fileAdress="D:\\shiqu\\picture\\";
             File file2=new File(fileAdress);
@@ -103,16 +116,23 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/login")
-    public R login(@RequestBody Admin admin,  HttpSession session){
-        String adminName=admin.getJobNum();
-        String adminPwd=admin.getPassword();
-        System.out.println(adminName+"........"+adminPwd);
-        Admin admin2 = adminService.login(adminName, adminPwd);
-        if(admin!=null){
-            session.setAttribute("admin",admin2);
-            return R.ok("登录成功").put("id",admin2.getId());
-        }
-        return R.error("登录失败");
+    public R login(@RequestBody Admin admin){
+        String username=admin.getJobNum();
+        String password=admin.getPassword();
+
+//        Boolean rememberMe=false;
+//        if("true".equals(rememberMeString)){
+//            rememberMe=true;
+//        }
+
+
+
+        Subject subject = ShiroUtils.getSubject();
+        CustomizedToken customizedToken = new CustomizedToken(username, password, ADMIN_LOGIN_TYPE);
+
+        subject.login(customizedToken);
+        Admin admin1 = adminService.login(username, password);
+        return R.ok().put("data",admin1);
     }
 
     @ResponseBody

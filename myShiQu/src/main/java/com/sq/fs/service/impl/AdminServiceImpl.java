@@ -55,8 +55,8 @@ public class AdminServiceImpl implements AdminService {
     public Admin login(String adminName,String adminPwd) {
         List list=new ArrayList();
         list.add(adminName);
-        list.add(adminPwd);
-        Admin admin = adminDao.get("from Admin where u_job_num = ? and u_password = ? ",list);
+
+        Admin admin = adminDao.get("from Admin where u_job_num = ? ",list);
         return admin;
 
 

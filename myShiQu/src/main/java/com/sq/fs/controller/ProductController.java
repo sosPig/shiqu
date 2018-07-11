@@ -45,6 +45,16 @@ public class ProductController {
             List<ImgList> imglist=new ArrayList<>();
             for (MultipartFile file : files) {
                 String oldFilename = file.getOriginalFilename();
+
+
+                String dex = oldFilename.substring(oldFilename.indexOf(".")+1);
+                List<String> dexs=new ArrayList<>();
+                dexs.add("jpg");
+                dexs.add("png");
+                if (!dexs.contains(dex)) {
+//                System.out.println("不支持的文件格式");
+                    return R.error("不支持的文件格式");
+                }
                 String newFilename= UUID.randomUUID().toString()+oldFilename.substring(oldFilename.lastIndexOf("."));
                 String fileAdress="D:\\shiqu\\picture\\";
                 File file1=new File(fileAdress+newFilename);

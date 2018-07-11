@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService {
     public User login(String userName,String userPwd) {
         List list=new ArrayList();
         list.add(userName);
-        list.add(userPwd);
-        User user = userDao.get("from User where u_job_num = ? and u_password = ? ",list);
+//        list.add(userPwd);
+        User user = userDao.get("from User where u_job_num = ?  ",list);
         return user;
 
 
