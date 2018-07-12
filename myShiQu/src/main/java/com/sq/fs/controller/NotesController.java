@@ -23,7 +23,7 @@ public class NotesController {
     @RequestMapping("/add")
     public R add(@RequestBody Notes notes){
         Serializable save = notesService.save(notes);
-        System.out.println(save);
+//        System.out.println(save);
 
         return R.ok("保存成功");
     }
@@ -48,7 +48,7 @@ public class NotesController {
     public R del(@RequestBody Map<String, Integer[]> paramters){
 
        // System.out.println(paramters);
-        Integer[] ids = paramters.get("id");
+        Integer[] ids = paramters.get("idList");
         notesService.deleteBatch(ids);
         return R.ok("删除成功");
     }
@@ -57,7 +57,8 @@ public class NotesController {
     @RequestMapping("/mod/{id}")
     public R update(@RequestBody Notes notes,@PathVariable Integer id){
 
-        System.out.println(notes.toString());
+//        System.out.println(notes.toString());
+
         notesService.update(id, notes);
         return R.ok("更新成功");
     }

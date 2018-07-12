@@ -1,17 +1,19 @@
 package com.sq.fs.controller;
 
 import com.sq.fs.dto.R;
+import com.sq.fs.pojo.Salary;
 import com.sq.fs.pojo.User;
+import com.sq.fs.service.SalaryService;
 import com.sq.fs.service.UserService;
-import com.sq.fs.shiro.LoginType;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,15 +28,16 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/api/user")
 public class UserController {
-    private static final String USER_LOGIN_TYPE = LoginType.USER.toString();
+
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private SalaryService salaryService;
     @ResponseBody
     @RequestMapping("/add")
     public R add( User user,
-                 @RequestParam("file1") MultipartFile file,
-                 Model model){
+                 @RequestParam("file1") MultipartFile file
+                ){
 //        System.out.println(user.toString());
 //        System.out.println(file);
 //        if(file!=null&&file.getOriginalFilename()!=null&&file.getOriginalFilename().length()>0){
@@ -87,14 +90,36 @@ public class UserController {
 
 
             user.setPhotoPath("/picture/"+newFilename);
-            model.addAttribute("url","/picture/"+newFilename);
+//            model.addAttribute("url","/picture/"+newFilename);
             System.out.println(user.toString());
         }
-        user.setPassword("123456");
+        List<User> userList = userService.queryList();
+        for (User user1 : userList) {
+            if(user.getJobNum().equals(user1.getJobNum())){
+                return R.error("工号已存在");
+            }
+        }
+        Md5Hash md5Hash = new Md5Hash("123456", user.getJobNum(), 1024);
+        String password=md5Hash.toString();
+        user.setPassword(password);
         user.setMoney("0");
         user.setCheckWork("无");
         user.setRemarks("无");
-        userService.save(user);
+        Serializable save = userService.save(user);
+
+
+        String s1 = save.toString();
+        int i = Integer.parseInt(s1);
+        Salary salary=new Salary();
+        salary.setUserId(i);
+        salary.setName(user.getName());
+        salary.setPosition(user.getPosition());
+        salary.setRemarks(user.getRemarks());
+        salary.setFive("0");
+        salary.setMouth("0");
+        salary.setSubsidy("0");
+        salary.setTotal("0");
+        salaryService.save(salary);
         return R.ok("保存成功");
     }
 
@@ -125,6 +150,7 @@ public class UserController {
 //        System.out.println(paramters);
         Integer[] ids = paramters.get("idList");
         userService.deleteBatch(ids);
+        salaryService.deleteBatch(ids);
         return R.ok("删除成功");
     }
 
@@ -142,6 +168,13 @@ public class UserController {
     @RequestMapping("/pwdchange/{id}")
     public R updatePassWord(@RequestBody User user,@PathVariable Integer id){
         String password = user.getPassword();
+        if(password==null&&password.equals("")){
+
+            return R.error("密码不能为空");
+        }
+
+        Md5Hash md5Hash = new Md5Hash(password, user.getJobNum(), 1024);
+        password=md5Hash.toString();
 
         userService.updatePassWord(id,password);
         return R.ok("更改密码成功");
@@ -175,7 +208,9 @@ public class UserController {
         String userName=user.getJobNum();
         String userPwd=user.getPassword();
         System.out.println(userName+"........"+userPwd);
-        User user2 = userService.login(userName, userPwd);
+        Md5Hash md5Hash = new Md5Hash("123456", user.getJobNum(), 1024);
+        userPwd=md5Hash.toString();
+        User user2 = userService.login(userName);
         if(user2!=null){
             if(userPwd.equals(user2.getPassword())) {
                 return R.ok("登录成功").put("data", user2);

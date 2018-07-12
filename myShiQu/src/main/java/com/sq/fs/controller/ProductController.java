@@ -124,7 +124,7 @@ public class ProductController {
     public R del(@RequestBody Map<String, Integer[]> paramters){
 
        // System.out.println(paramters);
-        Integer[] ids = paramters.get("id");
+        Integer[] ids = paramters.get("idList");
         productService.deleteBatch(ids);
         imgListService.deleteBatchs(ids);
         return R.ok("删除成功");
@@ -135,7 +135,7 @@ public class ProductController {
     @RequestMapping("/mod/{id}")
     public R update(@RequestBody Product product,@PathVariable Integer id){
 
-        System.out.println(product.toString());
+//        System.out.println(product.toString());
         productService.update(id, product);
         return R.ok("更新成功");
     }

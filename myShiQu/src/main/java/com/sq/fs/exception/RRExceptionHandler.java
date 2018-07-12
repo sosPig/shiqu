@@ -35,6 +35,8 @@ public class RRExceptionHandler {
 		return R.error("数据库中已存在该记录");
 	}
 
+
+
 	@ExceptionHandler(AuthorizationException.class)
 	public R handleAuthorizationException(AuthorizationException e){
 		logger.error(e.getMessage(), e);

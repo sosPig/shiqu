@@ -31,6 +31,16 @@ public class Product  {
     private String date;
     @Column(name="p_detail")
     private String detail;
+    @Column(name="p_flag")
+    private String flag;
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 
     public String getDate() {
         return date;

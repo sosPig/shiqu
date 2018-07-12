@@ -28,8 +28,8 @@ public class Admin  {
     @Column(name="a_date")
     private String date;
 
-    @Column(name="a_photo_path")
-    private String photoPath;
+//    @Column(name="a_photo_path")
+//    private String photoPath;
 
     public String getPassword() {
         return password;
@@ -87,25 +87,13 @@ public class Admin  {
         this.date = date;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
-    }
+//    public String getPhotoPath() {
+//        return photoPath;
+//    }
+//
+//    public void setPhotoPath(String photoPath) {
+//        this.photoPath = photoPath;
+//    }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
 
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", jobNum='" + jobNum + '\'' +
-                ", password='" + password + '\'' +
-                ", position='" + position + '\'' +
-                ", section='" + section + '\'' +
-                ", date='" + date + '\'' +
-                ", photoPath='" + photoPath + '\'' +
-                '}';
-    }
 }

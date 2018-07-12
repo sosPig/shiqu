@@ -54,7 +54,7 @@ public class VipController {
     public R del(@RequestBody Map<String, Integer[]> paramters){
 
        // System.out.println(paramters);
-        Integer[] ids = paramters.get("id");
+        Integer[] ids = paramters.get("idList");
         vipService.deleteBatch(ids);
         return R.ok("删除成功");
     }
@@ -64,7 +64,10 @@ public class VipController {
     @RequestMapping("/mod/{id}")
     public R update(@RequestBody Vip vip,@PathVariable("id") Integer id){
 
-        System.out.println(vip.toString());
+        Vip vip1 = vipService.queryById(id);
+        if(vip.getIdNum()!=null){
+            vip1.setIdNum(vip.getIdNum());
+        }
         vipService.update(id, vip);
         return R.ok("更新成功");
     }

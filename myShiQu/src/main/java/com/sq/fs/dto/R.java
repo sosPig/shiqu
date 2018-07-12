@@ -40,14 +40,14 @@ public class R extends HashMap<String, Object> {
     public static R error(String msg){
         R r = new R();
         r.put("ret", false);
-        r.put("msg", msg);
+        r.put("errmsg", msg);
         return r;
     }
 
     public static R error(boolean ret, String msg){
         R r = new R();
         r.put("ret", ret);
-        r.put("msg", msg);
+        r.put("errmsg", msg);
         return r;
     }
 

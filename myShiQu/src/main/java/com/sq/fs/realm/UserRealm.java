@@ -30,7 +30,7 @@ public class UserRealm extends AuthorizingRealm {
         CustomizedToken customizedToken = (CustomizedToken) token;
         String usernameInput = (String) customizedToken.getPrincipal();
         String passwordInput = new String((char[]) customizedToken.getCredentials());
-        User user = userService.login(usernameInput,passwordInput);
+        User user = userService.login(usernameInput);
         if(user==null){
             throw new UnknownAccountException("用户不存在");
         }

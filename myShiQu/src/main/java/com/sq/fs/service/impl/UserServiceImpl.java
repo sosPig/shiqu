@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String userName,String userPwd) {
+    public User login(String userName) {
         List list=new ArrayList();
         list.add(userName);
-//        list.add(userPwd);
+
         User user = userDao.get("from User where u_job_num = ?  ",list);
         return user;
 
@@ -61,5 +61,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassWord(Integer id,String password) {
         userDao.updatePassWord(id,password);
+    }
+
+    @Override
+    public void updateRemark(User user) {
+        userDao.updateRemark(user);
     }
 }

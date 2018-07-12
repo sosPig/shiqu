@@ -19,6 +19,7 @@ public interface UserService {
     void update(Integer id, User user);
 
     void deleteBatch(Integer[] ids);
-    User login(String userName,String userPwd);
+    User login(String userName);
     void updatePassWord(Integer id,String password);
+    void updateRemark(User user);
 }
