@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void update(Integer id, Admin admin) {
         admin.setId(id);
-        adminDao.update(admin);
+        adminDao.update1(admin);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
         List list=new ArrayList();
         list.add(adminName);
 
-        Admin admin = adminDao.get("from Admin where u_job_num = ? ",list);
+        Admin admin = adminDao.get("from Admin where a_job_num = ? ",list);
         return admin;
 
 

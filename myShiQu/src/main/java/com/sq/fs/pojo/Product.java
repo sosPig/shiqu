@@ -27,7 +27,26 @@ public class Product  {
     private String vipPrice;
     @Column(name="p_type")
     private String type;
+    @Column(name="p_date")
+    private String date;
+    @Column(name="p_detail")
+    private String detail;
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
 
     @Transient
     private List<ImgList> imglist  ;

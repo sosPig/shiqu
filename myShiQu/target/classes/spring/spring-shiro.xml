@@ -7,16 +7,24 @@
         <!--<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>-->
     <!--</bean>-->
     <bean id="userRealm" class="com.sq.fs.realm.UserRealm">
-        <!-- <property name="credentialsMatcher">
-             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-                 <property name="hashAlgorithmName" value="MD5"></property>
-                 <property name="hashIterations" value="1024"></property>
-                 <property name="hashSalted" value="true"></property>
-             </bean>
-         </property>-->
+
+    </bean>
+    <bean id="adminRealm" class="com.sq.fs.realm.AdminRealm">
+
+    </bean>
+    <bean id="authenticator" class="com.sq.fs.shiro.CustomizedModularRealmAuthenticator">
+        <!-- 配置认证策略，只要有一个Realm认证成功即可，并且返回所有认证成功信息 -->
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"></bean>
+        </property>
     </bean>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="userRealm" />
+        <property name="realms">
+            <list>
+                <ref bean="userRealm" />
+                <ref bean="adminRealm"/>
+            </list>
+        </property>
         <!--<property name="rememberMeManager.cookie.maxAge" value="60" />-->
         <!--<property name="cacheManager" ref="cacheManager"/>-->
     </bean>

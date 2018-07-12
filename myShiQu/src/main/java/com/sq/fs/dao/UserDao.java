@@ -8,4 +8,5 @@ import com.sq.fs.pojo.User;
  */
 public interface UserDao extends BaseDao<User> {
     void updatePassWord(Integer id,String password);
+    void update1(User user);
 }

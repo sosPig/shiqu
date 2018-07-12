@@ -6,10 +6,7 @@ import com.sq.fs.pojo.User;
 import com.sq.fs.service.AdminService;
 import com.sq.fs.service.UserService;
 import com.sq.fs.service.impl.UserServiceImpl;
-import com.sq.fs.shiro.CustomizedToken;
 import com.sq.fs.shiro.LoginType;
-import com.sq.fs.utils.ShiroUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -117,22 +114,34 @@ public class AdminController {
     @ResponseBody
     @RequestMapping("/login")
     public R login(@RequestBody Admin admin){
-        String username=admin.getJobNum();
-        String password=admin.getPassword();
+//        String username=admin.getJobNum();
+//        String password=admin.getPassword();
+//
+////        Boolean rememberMe=false;
+////        if("true".equals(rememberMeString)){
+////            rememberMe=true;
+////        }
+//
+//
+//
+//        Subject subject = ShiroUtils.getSubject();
+//        CustomizedToken customizedToken = new CustomizedToken(username, password, ADMIN_LOGIN_TYPE);
+//
+//        subject.login(customizedToken);
+//        Admin admin1 = adminService.login(username, password);
+//        return R.ok().put("data",admin1);
 
-//        Boolean rememberMe=false;
-//        if("true".equals(rememberMeString)){
-//            rememberMe=true;
-//        }
+        String adminName=admin.getJobNum();
+        String adminPwd=admin.getPassword();
+        System.out.println(adminName+"........"+adminPwd);
+        Admin admin2 = adminService.login(adminName, adminPwd);
+        if(admin2!=null){
 
-
-
-        Subject subject = ShiroUtils.getSubject();
-        CustomizedToken customizedToken = new CustomizedToken(username, password, ADMIN_LOGIN_TYPE);
-
-        subject.login(customizedToken);
-        Admin admin1 = adminService.login(username, password);
-        return R.ok().put("data",admin1);
+            if(adminPwd.equals(admin2.getPassword())) {
+                return R.ok("登录成功").put("data", admin2);
+            }
+        }
+        return R.error("用户名或密码错误");
     }
 
     @ResponseBody

@@ -7,22 +7,10 @@
         <!--<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>-->
     <!--</bean>-->
     <bean id="userRealm" class="com.sq.fs.realm.UserRealm">
-        <!-- <property name="credentialsMatcher">
-             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-                 <property name="hashAlgorithmName" value="MD5"></property>
-                 <property name="hashIterations" value="1024"></property>
-                 <property name="hashSalted" value="true"></property>
-             </bean>
-         </property>-->
+
     </bean>
     <bean id="adminRealm" class="com.sq.fs.realm.AdminRealm">
-        <!-- <property name="credentialsMatcher">
-             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-                 <property name="hashAlgorithmName" value="MD5"></property>
-                 <property name="hashIterations" value="1024"></property>
-                 <property name="hashSalted" value="true"></property>
-             </bean>
-         </property>-->
+
     </bean>
     <bean id="authenticator" class="com.sq.fs.shiro.CustomizedModularRealmAuthenticator">
         <!-- 配置认证策略，只要有一个Realm认证成功即可，并且返回所有认证成功信息 -->
@@ -71,7 +59,7 @@
                 /file/**=roles[editor]-->
                 <!--/sys/**=perms[sys:*]
                 /schedule/**=perms[schedule:*]-->
-                /**=authc
+                /**=anon
             </value>
         </property>
     </bean>

@@ -16,7 +16,7 @@
     <label>文件描述：<input type="text" name="money"></label>
     <label>文件描述：<input type="text" name="checkWork"></label>
     <label>文件描述：<input type="text" name="remarks"></label>
-    <label>文件描述：<input type="text" name="password"></label>
+
 
 
     <label>文件：<input type="file" name="file1"></label>

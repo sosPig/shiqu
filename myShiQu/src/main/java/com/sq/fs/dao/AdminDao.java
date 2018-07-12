@@ -8,4 +8,5 @@ import com.sq.fs.pojo.Admin;
  */
 public interface AdminDao extends BaseDao<Admin> {
     void updatePassWord(Integer id,String password);
+    void update1(Admin admin);
 }

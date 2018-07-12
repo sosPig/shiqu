@@ -43,4 +43,17 @@ public class AdminDaoImpl extends BaseDaoImpl<Admin> implements AdminDao {
         int ret=queryupdate.executeUpdate();
 
     }
+    @Override
+    public void update1( Admin admin) {
+        Query queryupdate=currentSession().createQuery("update "+className+" admin set admin.name= ?,admin.jobNum = ?,admin.position = ?,admin.section = ? ,admin.date =? where admin.id = ?");
+        queryupdate.setParameter(0, admin.getName());
+        queryupdate.setParameter(1, admin.getJobNum());
+
+        queryupdate.setParameter(2, admin.getPosition());
+        queryupdate.setParameter(3, admin.getSection());
+        queryupdate.setParameter(4, admin.getDate());
+
+        queryupdate.setParameter(5, admin.getId());
+        queryupdate.executeUpdate();
+    }
 }
